@@ -1,4 +1,5 @@
 import mongoose, { Schema, Document, Model, Types } from "mongoose";
+import { TEMPLATE_IDS } from "@/lib/validation";
 
 /**
  * Interface for WorkExperience subdocument
@@ -33,6 +34,7 @@ export interface IResume extends Document {
   photoUrl?: string;
   colorHex?: string;
   borderStyle?: string;
+  templateId?: "classic" | "modern" | "minimal" | "creative" | "professional" | "compact" | "elegant" | "tech";
   summary?: string;
   firstName?: string;
   lastName?: string;
@@ -90,6 +92,7 @@ const ResumeSchema = new Schema<IResume>(
     photoUrl: { type: String },
     colorHex: { type: String },
     borderStyle: { type: String },
+    templateId: { type: String, enum: TEMPLATE_IDS, default: "classic" },
     summary: { type: String },
     firstName: { type: String },
     lastName: { type: String },

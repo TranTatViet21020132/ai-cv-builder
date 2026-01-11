@@ -12,6 +12,7 @@ export type ResumeServerData = {
   photoUrl?: string;
   colorHex?: string;
   borderStyle?: string;
+  templateId?: string;
   summary?: string;
   firstName?: string;
   lastName?: string;

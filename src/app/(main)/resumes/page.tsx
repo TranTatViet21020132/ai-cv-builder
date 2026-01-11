@@ -17,7 +17,7 @@ export default async function Page() {
   // TEMPORARY: Clerk authentication disabled for testing
   // const { userId } = await auth();
   // if (!userId) {
-  //   return null;
+  //   return null;
   // }
   const userId = "test-user-123"; // Hardcoded test user ID
 
@@ -48,6 +48,7 @@ export default async function Page() {
       phone: obj.phone,
       email: obj.email,
       skills: obj.skills || [], // Serialize dates to ISO strings
+      templateId: obj.templateId,
       createdAt: obj.createdAt.toISOString(),
       updatedAt: obj.updatedAt.toISOString(), // Properly serialize work experiences with date handling
       workExperiences: (obj.workExperiences ?? []).map((exp) => ({
@@ -67,25 +68,45 @@ export default async function Page() {
   });
 
   return (
-    <main className="mx-auto w-full max-w-7xl space-y-6 px-3 py-6">
-           {" "}
-      <CreateResumeButton
-        canCreate={canCreateResume(subscriptionLevel, totalCount)}
-      />
-           {" "}
-      <div className="space-y-1">
-                <h1 className="text-3xl font-bold">Your resumes</h1>       {" "}
-        <p>Total: {totalCount}</p>     {" "}
+    <main className="mx-auto w-full max-w-7xl space-y-6 px-4 py-8">
+      {/* Header */}
+      <div className="flex flex-col gap-4 rounded-xl border bg-card p-5 sm:flex-row sm:items-center sm:justify-between">
+        <div className="space-y-1">
+          <h1 className="text-2xl font-semibold tracking-tight sm:text-3xl">
+            Your resumes
+          </h1>
+          <p className="text-sm text-muted-foreground">
+            Manage, edit, print, and organize your resumes.
+            <span className="ml-2 font-medium text-foreground">
+              Total: {totalCount}
+            </span>
+          </p>
+        </div>
+
+        <CreateResumeButton
+          canCreate={canCreateResume(subscriptionLevel, totalCount)}
+        />
       </div>
-           {" "}
-      <div className="flex w-full grid-cols-2 flex-col gap-3 sm:grid md:grid-cols-3 lg:grid-cols-4">
-               {" "}
-        {resumes.map((resume) => (
-          <ResumeItem key={resume.id} resume={resume} />
-        ))}
-             {" "}
-      </div>
-         {" "}
+
+      {/* Grid / Empty state */}
+      {resumes.length === 0 ? (
+        <div className="flex flex-col items-center justify-center rounded-xl border bg-card px-6 py-16 text-center">
+          <p className="text-lg font-semibold">No resumes yet</p>
+          <p className="mt-1 max-w-md text-sm text-muted-foreground">
+            Create your first resume and pick a template. You can always edit it
+            later.
+          </p>
+          <div className="mt-6">
+            <CreateResumeButton canCreate />
+          </div>
+        </div>
+      ) : (
+        <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+          {resumes.map((resume) => (
+            <ResumeItem key={resume.id} resume={resume} />
+          ))}
+        </div>
+      )}
     </main>
   );
 }

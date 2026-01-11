@@ -17,7 +17,7 @@ export default async function Page({ searchParams }: PageProps) {
   const { resumeId } = await searchParams; // TEMPORARY: Clerk authentication disabled for testing
   // const { userId } = await auth();
   // if (!userId) {
-  //   return null;
+  //   return null;
   // }
 
   const userId = "test-user-123"; // Hardcoded test user ID
@@ -46,6 +46,7 @@ export default async function Page({ searchParams }: PageProps) {
         phone: resumeDoc.phone,
         email: resumeDoc.email,
         skills: resumeDoc.skills || [],
+        templateId: resumeDoc.templateId,
         workExperiences: (resumeDoc.workExperiences || []).map((exp) => ({
           position: exp.position,
           company: exp.company,

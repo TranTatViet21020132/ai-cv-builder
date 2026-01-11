@@ -44,27 +44,20 @@ export default function PersonalInfoForm({
 
   return (
     <div className="mx-auto max-w-xl space-y-6">
-           {" "}
-      <div className="space-y-1.5 text-center">
-                <h2 className="text-2xl font-semibold">Personal info</h2>       {" "}
+      <div className="space-y-1.5 text-left">
+        <h2 className="text-2xl font-semibold">Personal info</h2>
         <p className="text-sm text-muted-foreground">Tell us about yourself.</p>
-             {" "}
       </div>
-           {" "}
       <Form {...form}>
-               {" "}
         <form className="space-y-3">
-                   {" "}
           <FormField
             control={form.control}
             name="photo"
             render={({ field: { value, ...fieldValues } }) => (
               <FormItem>
-                                <FormLabel>Your photo</FormLabel>               {" "}
-                <div className="flex items-center gap-2">
-                                   {" "}
+                <FormLabel>Your photo</FormLabel>
+                <div className="flex items-start gap-2">
                   <FormControl>
-                                       {" "}
                     <Input
                       {...fieldValues}
                       type="file"
@@ -75,9 +68,7 @@ export default function PersonalInfoForm({
                       }}
                       ref={photoInputRef}
                     />
-                                     {" "}
                   </FormControl>
-                                   {" "}
                   <Button
                     variant="secondary"
                     type="button"
@@ -88,141 +79,110 @@ export default function PersonalInfoForm({
                       }
                     }}
                   >
-                                        Remove                  {" "}
+                    Remove
                   </Button>
-                                 {" "}
                 </div>
-                                <FormMessage />             {" "}
+                <FormMessage />
               </FormItem>
             )}
           />
-                   {" "}
           <div className="grid grid-cols-2 gap-3">
-                       {" "}
             <FormField
               control={form.control}
               name="firstName"
               render={({ field }) => (
                 <FormItem>
-                                    <FormLabel>First name</FormLabel>           
-                       {" "}
+                  <FormLabel>First name</FormLabel>
                   <FormControl>
-                                       {" "}
-                    <Input {...field} value={field.value || ""} />             
-                       {" "}
+                    <Input {...field} value={field.value || ""} />
                   </FormControl>
-                                    <FormMessage />               {" "}
+                  <FormMessage />
                 </FormItem>
               )}
             />
-                       {" "}
             <FormField
               control={form.control}
               name="lastName"
               render={({ field }) => (
                 <FormItem>
-                                    <FormLabel>Last name</FormLabel>           
-                       {" "}
+                  <FormLabel>Last name</FormLabel>
                   <FormControl>
-                                       {" "}
-                    <Input {...field} value={field.value || ""} />             
-                       {" "}
+                    <Input {...field} value={field.value || ""} />
                   </FormControl>
-                                    <FormMessage />               {" "}
+                  <FormMessage />
                 </FormItem>
               )}
             />
-                     {" "}
           </div>
-                   {" "}
           <FormField
             control={form.control}
             name="jobTitle"
             render={({ field }) => (
               <FormItem>
-                                <FormLabel>Job title</FormLabel>               {" "}
+                <FormLabel>Job title</FormLabel>
                 <FormControl>
-                                   {" "}
-                  <Input {...field} value={field.value || ""} />               {" "}
+                  <Input {...field} value={field.value || ""} />
                 </FormControl>
-                                <FormMessage />             {" "}
+                <FormMessage />
               </FormItem>
             )}
           />
-                   {" "}
           <div className="grid grid-cols-2 gap-3">
-                       {" "}
             <FormField
               control={form.control}
               name="city"
               render={({ field }) => (
                 <FormItem>
-                                    <FormLabel>City</FormLabel>                 {" "}
+                  <FormLabel>City</FormLabel>
                   <FormControl>
-                                       {" "}
-                    <Input {...field} value={field.value || ""} />             
-                       {" "}
+                    <Input {...field} value={field.value || ""} />
                   </FormControl>
-                                    <FormMessage />               {" "}
+                  <FormMessage />
                 </FormItem>
               )}
             />
-                       {" "}
             <FormField
               control={form.control}
               name="country"
               render={({ field }) => (
                 <FormItem>
-                                    <FormLabel>Country</FormLabel>             
-                     {" "}
+                  <FormLabel>Country</FormLabel>
                   <FormControl>
-                                       {" "}
-                    <Input {...field} value={field.value || ""} />             
-                       {" "}
+                    <Input {...field} value={field.value || ""} />
                   </FormControl>
-                                    <FormMessage />               {" "}
+                  <FormMessage />
                 </FormItem>
               )}
             />
-                     {" "}
           </div>
-                   {" "}
           <FormField
             control={form.control}
             name="phone"
             render={({ field }) => (
               <FormItem>
-                                <FormLabel>Phone</FormLabel>               {" "}
+                <FormLabel>Phone</FormLabel>
                 <FormControl>
-                                   {" "}
-                  <Input {...field} value={field.value || ""} type="tel" />     
-                           {" "}
+                  <Input {...field} value={field.value || ""} type="tel" />
                 </FormControl>
-                                <FormMessage />             {" "}
+                <FormMessage />
               </FormItem>
             )}
           />
-                   {" "}
           <FormField
             control={form.control}
             name="email"
             render={({ field }) => (
               <FormItem>
-                                <FormLabel>Email</FormLabel>               {" "}
+                <FormLabel>Email</FormLabel>
                 <FormControl>
-                                   {" "}
-                  <Input {...field} value={field.value || ""} type="email" />   
-                             {" "}
+                  <Input {...field} value={field.value || ""} type="email" />
                 </FormControl>
-                                <FormMessage />             {" "}
+                <FormMessage />
               </FormItem>
             )}
           />
-                 {" "}
         </form>
-             {" "}
       </Form>
-         {" "}
     </div>
   );
 }

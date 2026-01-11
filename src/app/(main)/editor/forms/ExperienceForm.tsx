@@ -33,7 +33,7 @@ import {
 import { CSS } from "@dnd-kit/utilities";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { GripHorizontal } from "lucide-react";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useFieldArray, useForm, UseFormReturn } from "react-hook-form";
 import GenerateWorkExperienceButton from "./GenerateWorkExperienceButton";
 
@@ -41,12 +41,18 @@ export default function ExperienceForm({
   resumeData,
   setResumeData,
 }: EditorFormProps) {
+  const [isMounted, setIsMounted] = useState(false);
+
   const form = useForm<WorkExperienceValues>({
     resolver: zodResolver(workExperienceSchema),
     defaultValues: {
       workExperiences: resumeData.workExperiences || [],
     },
   });
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   useEffect(() => {
     const { unsubscribe } = form.watch(async (values) => {
@@ -86,32 +92,17 @@ export default function ExperienceForm({
 
   return (
     <div className="mx-auto max-w-xl space-y-6">
-           {" "}
-      <div className="space-y-1.5 text-center">
-                <h2 className="text-2xl font-semibold">Work experience</h2>     
-         {" "}
+      <div className="space-y-1.5 text-left">
+        <h2 className="text-2xl font-semibold">Work experience</h2>
         <p className="text-sm text-muted-foreground">
-                    Add as many work experiences as you like.        {" "}
+          Add as many work experiences as you like.
         </p>
-             {" "}
       </div>
-           {" "}
       <Form {...form}>
-               {" "}
         <form className="space-y-3">
-                   {" "}
-          <DndContext
-            sensors={sensors}
-            collisionDetection={closestCenter}
-            onDragEnd={handleDragEnd}
-            modifiers={[restrictToVerticalAxis]}
-          >
-                       {" "}
-            <SortableContext
-              items={fields}
-              strategy={verticalListSortingStrategy}
-            >
-                           {" "}
+          {!isMounted ? (
+            // Render without DndContext during SSR/initial render
+            <div className="space-y-3">
               {fields.map((field, index) => (
                 <WorkExperienceItem
                   id={field.id}
@@ -121,13 +112,32 @@ export default function ExperienceForm({
                   remove={remove}
                 />
               ))}
-                         {" "}
-            </SortableContext>
-                     {" "}
-          </DndContext>
-                   {" "}
+            </div>
+          ) : (
+            // Render with DndContext after client-side mount
+            <DndContext
+              sensors={sensors}
+              collisionDetection={closestCenter}
+              onDragEnd={handleDragEnd}
+              modifiers={[restrictToVerticalAxis]}
+            >
+              <SortableContext
+                items={fields}
+                strategy={verticalListSortingStrategy}
+              >
+                {fields.map((field, index) => (
+                  <WorkExperienceItem
+                    id={field.id}
+                    key={field.id}
+                    index={index}
+                    form={form}
+                    remove={remove}
+                  />
+                ))}
+              </SortableContext>
+            </DndContext>
+          )}
           <div className="flex justify-center">
-                       {" "}
             <Button
               type="button"
               onClick={() =>
@@ -140,15 +150,11 @@ export default function ExperienceForm({
                 })
               }
             >
-                            Add work experience            {" "}
+              Add work experience
             </Button>
-                     {" "}
           </div>
-                 {" "}
         </form>
-             {" "}
       </Form>
-         {" "}
     </div>
   );
 }
@@ -187,128 +193,103 @@ function WorkExperienceItem({
         transition,
       }}
     >
-           {" "}
       <div className="flex justify-between gap-2">
-               {" "}
         <span className="font-semibold">Work experience {index + 1}</span>
-               {" "}
         <GripHorizontal
           className="size-5 cursor-grab text-muted-foreground focus:outline-none"
           {...attributes}
           {...listeners}
         />
-             {" "}
       </div>
-           {" "}
       <div className="flex justify-center">
-               {" "}
         <GenerateWorkExperienceButton
           onWorkExperienceGenerated={(exp) =>
             form.setValue(`workExperiences.${index}`, exp)
           }
         />
-             {" "}
       </div>
-           {" "}
       <FormField
         control={form.control}
         name={`workExperiences.${index}.position`}
         render={({ field }) => (
           <FormItem>
-                        <FormLabel>Job title</FormLabel>           {" "}
+            <FormLabel>Job title</FormLabel>
             <FormControl>
-                           {" "}
-              <Input {...field} value={field.value || ""} autoFocus />         
-               {" "}
+              <Input {...field} value={field.value || ""} autoFocus />
             </FormControl>
-                        <FormMessage />         {" "}
+            <FormMessage />
           </FormItem>
         )}
       />
-           {" "}
       <FormField
         control={form.control}
         name={`workExperiences.${index}.company`}
         render={({ field }) => (
           <FormItem>
-                        <FormLabel>Company</FormLabel>           {" "}
+            <FormLabel>Company</FormLabel>
             <FormControl>
-                            <Input {...field} value={field.value || ""} />     
-                   {" "}
+              <Input {...field} value={field.value || ""} />
             </FormControl>
-                        <FormMessage />         {" "}
+            <FormMessage />
           </FormItem>
         )}
       />
-           {" "}
       <div className="grid grid-cols-2 gap-3">
-               {" "}
         <FormField
           control={form.control}
           name={`workExperiences.${index}.startDate`}
           render={({ field }) => (
             <FormItem>
-                            <FormLabel>Start date</FormLabel>             {" "}
+              <FormLabel>Start date</FormLabel>
               <FormControl>
-                               {" "}
                 <Input
                   {...field}
                   type="date"
                   value={field.value?.slice(0, 10) || ""}
                 />
-                             {" "}
               </FormControl>
-                            <FormMessage />           {" "}
+              <FormMessage />
             </FormItem>
           )}
         />
-               {" "}
         <FormField
           control={form.control}
           name={`workExperiences.${index}.endDate`}
           render={({ field }) => (
             <FormItem>
-                            <FormLabel>End date</FormLabel>             {" "}
+              <FormLabel>End date</FormLabel>
               <FormControl>
-                               {" "}
                 <Input
                   {...field}
                   type="date"
                   value={field.value?.slice(0, 10) || ""}
                 />
-                             {" "}
               </FormControl>
-                            <FormMessage />           {" "}
+              <FormMessage />
             </FormItem>
           )}
         />
-             {" "}
       </div>
-           {" "}
       <FormDescription>
-                Leave <span className="font-semibold">end date</span> empty if
-        you are         currently working here.      {" "}
+        Leave <span className="font-semibold">end date</span> empty if you are
+        currently working here.
       </FormDescription>
-           {" "}
       <FormField
         control={form.control}
         name={`workExperiences.${index}.description`}
         render={({ field }) => (
           <FormItem>
-                        <FormLabel>Description</FormLabel>           {" "}
+            <FormLabel>Description</FormLabel>
             <FormControl>
-                            <Textarea {...field} value={field.value || ""} />   
-                     {" "}
+              <Textarea {...field} value={field.value || ""} />
             </FormControl>
-                        <FormMessage />         {" "}
+            <FormMessage />
           </FormItem>
         )}
       />
-           {" "}
       <Button variant="destructive" type="button" onClick={() => remove(index)}>
-                Remove      {" "}
+        Remove
       </Button>
-         {" "}
     </div>
   );
 }

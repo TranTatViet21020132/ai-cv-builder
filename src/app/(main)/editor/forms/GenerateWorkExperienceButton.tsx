@@ -1,8 +1,8 @@
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 import {
-  Experience,
-  GenerateExperienceInput,
+  WorkExperience,
+  GenerateWorkExperienceInput,
   generateWorkExperienceSchema,
 } from "@/lib/validation";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -32,7 +32,7 @@ import usePremiumModal from "@/hooks/usePremiumModal";
 import { canUseAITools } from "@/lib/permissions";
 
 interface GenerateWorkExperienceButtonProps {
-  onWorkExperienceGenerated: (workExperience: Experience) => void;
+  onWorkExperienceGenerated: (workExperience: WorkExperience) => void;
 }
 
 export default function GenerateWorkExperienceButton({
@@ -75,7 +75,7 @@ export default function GenerateWorkExperienceButton({
 interface InputDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  onWorkExperienceGenerated: (workExperience: Experience) => void;
+  onWorkExperienceGenerated: (workExperience: WorkExperience) => void;
 }
 
 function InputDialog({
@@ -85,14 +85,14 @@ function InputDialog({
 }: InputDialogProps) {
   const { toast } = useToast();
 
-  const form = useForm<GenerateExperienceInput>({
+  const form = useForm<GenerateWorkExperienceInput>({
     resolver: zodResolver(generateWorkExperienceSchema),
     defaultValues: {
       description: "",
     },
   });
 
-  async function onSubmit(input: GenerateExperienceInput) {
+  async function onSubmit(input: GenerateWorkExperienceInput) {
     try {
       const response = await generateExperience(input);
       onWorkExperienceGenerated(response);

@@ -2,8 +2,8 @@
 
 import openai from "@/lib/openai";
 import {
-  Experience,
-  GenerateExperienceInput,
+  WorkExperience,
+  GenerateWorkExperienceInput,
   generateWorkExperienceSchema,
   GenerateSummaryInput,
   generateSummarySchema,
@@ -25,14 +25,14 @@ export async function generateSummary(input: GenerateSummaryInput) {
     throw new Error("Upgrade your subscription to use this feature");
   }
 
-  const { jobTitle, experiences, educations, skills } =
+  const { jobTitle, workExperiences, educations, skills } =
     generateSummarySchema.parse(input);
 
   const systemMessage = `
         You are a job resume generator AI. Your task is to generate a professional introduction summary for a resume given the user's provided data. only include the summary and do not include any other information  in the response. Keep it short and concise and it is professional and engaging.`;
 
   const userMessage = `
-    Please generate a professional introduction summary for a resume for a ${jobTitle || "N/A"} with the following ${experiences
+    Please generate a professional introduction summary for a resume for a ${jobTitle || "N/A"} with the following ${workExperiences
       ?.map(
         (exp) => `
         Position as ${exp.position || "N/A"} at ${exp.company || "N/A"} from ${exp.startDate || "N/A"} to ${exp.endDate || "Present"}. 
@@ -44,8 +44,7 @@ export async function generateSummary(input: GenerateSummaryInput) {
     ${educations
       ?.map(
         (edu) => `
-        Degree in ${edu.degree || "N/A"} from ${edu.school || "N/A"} from ${edu.startDate || "N/A"} to ${edu.endDate || "N/A"}. 
-        Description : ${edu.description || "N/A"}`,
+        Degree in ${edu.degree || "N/A"} from ${edu.school || "N/A"} from ${edu.startDate || "N/A"} to ${edu.endDate || "N/A"}.`,
       )
       .join("\n\n")}
 
@@ -82,7 +81,7 @@ export async function generateSummary(input: GenerateSummaryInput) {
   return aiResponse;
 }
 
-export async function generateExperience(input: GenerateExperienceInput) {
+export async function generateExperience(input: GenerateWorkExperienceInput) {
   const { userId } = await auth();
 
   if (!userId) {
@@ -103,7 +102,6 @@ export async function generateExperience(input: GenerateExperienceInput) {
 
         Job title:<job title> 
         Company: <company name>
-        Location: <location> (only if provided)
         Start date: <format YYYY-MM-DD> (only if provided)
         End date: <format YYYY-MM-DD> (only if provided)
         Description: <a few optimized description of the job in bullet points, might be inferred from the job title and company name>`;
@@ -133,9 +131,8 @@ export async function generateExperience(input: GenerateExperienceInput) {
   return {
     position: aiResponse.match(/Job title: (.*)/)?.[1] || "",
     company: aiResponse.match(/Company: (.*)/)?.[1] || "",
-    location: aiResponse.match(/Location: (.*)/)?.[1],
     description: (aiResponse.match(/Description:([\s\S]*)/)?.[1] || "").trim(),
     startDate: aiResponse.match(/Start date: (\d{4}-\d{2}-\d{2})/)?.[1],
     endDate: aiResponse.match(/End date: (\d{4}-\d{2}-\d{2})/)?.[1],
-  } satisfies Experience;
+  } satisfies WorkExperience;
 }

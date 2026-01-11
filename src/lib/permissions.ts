@@ -1,4 +1,5 @@
-import { SubscriptionLevel } from "./subscription";
+import { SubscriptionLevel } from "./types";
+import { canAccessTemplate as templateCanAccess } from "./templates";
 
 export function canCreateResume(
   subscriptionLevel: SubscriptionLevel,
@@ -21,4 +22,11 @@ export function canUseAITools(subscriptionLevel: SubscriptionLevel) {
 
 export function canUseCustomizations(subscriptionLevel: SubscriptionLevel) {
   return subscriptionLevel === "pro_plus";
+}
+
+export function canAccessTemplate(
+  templateId: string,
+  userSubscriptionLevel: SubscriptionLevel,
+): boolean {
+  return templateCanAccess(templateId, userSubscriptionLevel);
 }

@@ -65,59 +65,44 @@ export default function ResumeItem({ resume }: ResumeItemProps) {
 
   return (
     <div className="group relative rounded-lg border border-transparent bg-secondary p-3 transition-colors hover:border-border">
-           {" "}
       <div className="space-y-3">
-               {" "}
         <Link
           href={`/editor?resumeId=${resume.id}`}
           className="inline-block w-full text-center"
         >
-                   {" "}
           <p className="line-clamp-1 font-semibold">
-                        {resume.title || "No title"}         {" "}
+            {resume.title || "No title"}
           </p>
-                   {" "}
           {resume.description && (
             <p className="line-clamp-2 text-sm">{resume.description}</p>
           )}
-                   {" "}
           <p className="text-xs text-muted-foreground">
-                       {" "}
             {mounted ? (
               <>
-                                {wasUpdated ? "Updated" : "Created"} on        
-                        {formatDate(resume.updatedAt, "MMM d, yyyy h:mm a")}   
-                         {" "}
+                {wasUpdated ? "Updated" : "Created"} on
+                {formatDate(resume.updatedAt, "MMM d, yyyy h:mm a")}
               </>
             ) : (
               // Placeholder to prevent layout shift
               <span style={{ visibility: "hidden" }}>
-                                {wasUpdated ? "Updated" : "Created"} on Jan 1,
-                2026 12:00 AM              {" "}
+                {wasUpdated ? "Updated" : "Created"} on Jan 1, 2026 12:00 AM
               </span>
             )}
-                     {" "}
           </p>
-                 {" "}
         </Link>
-               {" "}
         <Link
           href={`/editor?resumeId=${resume.id}`}
           className="relative inline-block w-full"
         >
-                   {" "}
           <ResumePreview
             resumeData={mapToResumeValues(resumeServerData)}
             contentRef={contentRef}
             className="overflow-hidden shadow-sm transition-shadow group-hover:shadow-lg"
           />
-                   {" "}
           <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-white to-transparent" />
-                 {" "}
         </Link>
-             {" "}
       </div>
-            <MoreMenu resumeId={resume.id} onPrintClick={reactToPrintFn} />   {" "}
+      <MoreMenu resumeId={resume.id} onPrintClick={reactToPrintFn} />
     </div>
   );
 }
@@ -132,50 +117,39 @@ function MoreMenu({ resumeId, onPrintClick }: MoreMenuProps) {
 
   return (
     <>
-           {" "}
       <DropdownMenu>
-               {" "}
         <DropdownMenuTrigger asChild>
-                   {" "}
           <Button
             variant="ghost"
             size="icon"
             className="absolute right-0.5 top-0.5 opacity-0 transition-opacity group-hover:opacity-100"
           >
-                        <MoreVertical className="size-4" />           {" "}
-            <span className="sr-only">More options</span>         {" "}
+            <MoreVertical className="size-4" />
+            <span className="sr-only">More options</span>
           </Button>
-                 {" "}
         </DropdownMenuTrigger>
-               {" "}
         <DropdownMenuContent>
-                   {" "}
           <DropdownMenuItem
             className="flex items-center gap-2"
             onClick={() => setShowDeleteConfirmation(true)}
           >
-                        <Trash2 className="size-4" />            Delete        
-             {" "}
+            <Trash2 className="size-4" />
+            Delete
           </DropdownMenuItem>
-                   {" "}
           <DropdownMenuItem
             className="flex items-center gap-2"
             onClick={onPrintClick}
           >
-                        <Printer className="size-4" />            Print        
-             {" "}
+            <Printer className="size-4" />
+            Print
           </DropdownMenuItem>
-                 {" "}
         </DropdownMenuContent>
-             {" "}
       </DropdownMenu>
-           {" "}
       <DeleteConfirmationDialog
         resumeId={resumeId}
         open={showDeleteConfirmation}
         onOpenChange={setShowDeleteConfirmation}
       />
-         {" "}
     </>
   );
 }
@@ -212,36 +186,27 @@ function DeleteConfirmationDialog({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-           {" "}
       <DialogContent>
-               {" "}
         <DialogHeader>
-                    <DialogTitle>Delete resume?</DialogTitle>         {" "}
+          <DialogTitle>Delete resume?</DialogTitle>
           <DialogDescription>
-                        This will permanently delete this resume. This action
-            cannot be             undone.          {" "}
+            This will permanently delete this resume. This action cannot be
+            undone.
           </DialogDescription>
-                 {" "}
         </DialogHeader>
-               {" "}
         <DialogFooter>
-                   {" "}
           <LoadingButton
             variant="destructive"
             onClick={handleDelete}
             loading={isPending}
           >
-                        Delete          {" "}
+            Delete
           </LoadingButton>
-                   {" "}
           <Button variant="secondary" onClick={() => onOpenChange(false)}>
-                        Cancel          {" "}
+            Cancel
           </Button>
-                 {" "}
         </DialogFooter>
-             {" "}
       </DialogContent>
-         {" "}
     </Dialog>
   );
 }

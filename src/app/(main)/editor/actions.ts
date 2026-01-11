@@ -9,6 +9,7 @@ import Resume from "@/models/Resume";
 // import { auth } from "@clerk/nextjs/server";
 
 export async function saveResume(values: ResumeValues) {
+  console.log("11111", values);
   // Connect to MongoDB
   await connectDB();
 
@@ -20,8 +21,10 @@ export async function saveResume(values: ResumeValues) {
     resumeSchema.parse(values); // TEMPORARY: Clerk authentication disabled for testing
   // const { userId } = await auth();
   // if (!userId) {
-  //   throw new Error("User not authenticated");
+  //   throw new Error("User not authenticated");
   // }
+
+  console.log("11112", resumeValues.templateId);
 
   const userId = "test-user-123"; // Hardcoded test user ID
 
@@ -38,9 +41,13 @@ export async function saveResume(values: ResumeValues) {
       await del(existingResume.photoUrl);
     }
 
-    const blob = await put(`resume_photos/${path.extname(photo.name)}`, photo, {
-      access: "public",
-    });
+    const blob = await put(
+      `resume_photos/${crypto.randomUUID()}${path.extname(photo.name)}`,
+      photo,
+      {
+        access: "public",
+      },
+    );
 
     newPhotoUrl = blob.url;
   } else if (photo === null) {
@@ -77,6 +84,8 @@ export async function saveResume(values: ResumeValues) {
       throw new Error("Failed to update resume");
     } // Properly serialize for client components
 
+    console.log("11113", updatedResume);
+
     return {
       id: updatedResume._id.toString(),
       userId: updatedResume.userId,
@@ -85,6 +94,7 @@ export async function saveResume(values: ResumeValues) {
       photoUrl: updatedResume.photoUrl,
       colorHex: updatedResume.colorHex,
       borderStyle: updatedResume.borderStyle,
+      templateId: updatedResume.templateId,
       summary: updatedResume.summary,
       firstName: updatedResume.firstName,
       lastName: updatedResume.lastName,
@@ -138,6 +148,7 @@ export async function saveResume(values: ResumeValues) {
       photoUrl: newResume.photoUrl,
       colorHex: newResume.colorHex,
       borderStyle: newResume.borderStyle,
+      templateId: newResume.templateId,
       summary: newResume.summary,
       firstName: newResume.firstName,
       lastName: newResume.lastName,

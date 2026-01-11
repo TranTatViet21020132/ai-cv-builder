@@ -2,6 +2,17 @@ import { z } from "zod";
 
 export const optionalString = z.string().trim().optional().or(z.literal(""));
 
+export const TEMPLATE_IDS = [
+  "classic",
+  "modern",
+  "minimal",
+  "creative",
+  "professional",
+  "compact",
+  "elegant",
+  "tech",
+] as const;
+
 export const generalInfoSchema = z.object({
   title: optionalString,
   description: optionalString,
@@ -88,6 +99,7 @@ export const resumeSchema = z.object({
   ...summarySchema.shape,
   colorHex: optionalString,
   borderStyle: optionalString,
+  templateId: z.enum(TEMPLATE_IDS).optional().default("classic"),
 });
 
 export type ResumeValues = Omit<z.infer<typeof resumeSchema>, "photo"> & {

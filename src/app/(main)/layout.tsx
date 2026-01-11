@@ -12,7 +12,7 @@ export default async function Layout({
   // TEMPORARY: Clerk authentication disabled for testing
   // const { userId } = await auth();
   // if (!userId) {
-  //   return null;
+  //   return null;
   // }
   const userId = "test-user-123"; // Hardcoded test user ID
 
@@ -20,11 +20,11 @@ export default async function Layout({
 
   return (
     <SubscriptionLevelProvider userSubscriptionLevel={userSubscriptionLevel}>
-      <div className="flex min-h-screen flex-col">
-        <Navbar />
+      <Navbar />
+      <div className="flex-1">
         {children}
-        <PremiumModal />
       </div>
+      <PremiumModal />
     </SubscriptionLevelProvider>
   );
 }

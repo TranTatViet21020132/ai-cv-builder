@@ -1,7 +1,7 @@
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 import { ResumeServerData, ResumeClientData } from "./types";
-import { ResumeValues } from "./validation";
+import { ResumeValues, TEMPLATE_IDS } from "./validation";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -16,6 +16,11 @@ export function fileReplacer(key: unknown, value: unknown) {
         lastModified: value.lastModified,
       }
     : value;
+}
+
+// Type guard to check if a string is a valid template ID
+function isValidTemplateId(id: string | undefined): id is typeof TEMPLATE_IDS[number] {
+  return id !== undefined && TEMPLATE_IDS.includes(id as typeof TEMPLATE_IDS[number]);
 }
 
 export function mapToResumeValues(
@@ -65,6 +70,9 @@ export function mapToResumeValues(
     skills: data.skills,
     borderStyle: data.borderStyle,
     colorHex: data.colorHex,
+    templateId: isValidTemplateId(data.templateId)
+      ? data.templateId
+      : "classic",
     summary: data.summary || undefined,
   };
 }

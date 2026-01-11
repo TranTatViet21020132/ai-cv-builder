@@ -16,11 +16,8 @@ export default function Navbar() {
 
   return (
     <header className="shadow-sm">
-           {" "}
       <div className="mx-auto flex max-w-7xl items-center justify-between gap-3 p-3">
-               {" "}
         <Link href="/resumes" className="flex items-center gap-2">
-                   {" "}
           <Image
             src={logo}
             alt="Logo"
@@ -28,44 +25,37 @@ export default function Navbar() {
             height={35}
             className="rounded-full"
           />
-                   {" "}
           <span className="text-xl font-bold tracking-tight">
-                        AI Resume Builder          {" "}
+            AI Resume Builder
           </span>
-                 {" "}
         </Link>
-               {" "}
         <div className="flex items-center gap-3">
-                    <ThemeToggle />         {" "}
-          {/* TEMPORARY: UserButton disabled for testing */}         {" "}
+          <ThemeToggle />
+          {/* TEMPORARY: UserButton disabled for testing */}
           {/* <UserButton
-            appearance={{
-              baseTheme: theme === "dark" ? dark : undefined,
-              elements: {
-                avatarBox: {
-                  width: 35,
-                  height: 35,
-                },
-              },
-            }}
-          >
-            <UserButton.MenuItems>
-              <UserButton.Link
-                label="Billing"
-                labelIcon={<CreditCard className="size-4" />}
-                href="/billing"
-              />
-            </UserButton.MenuItems>
-          </UserButton> */}
-                   {" "}
+            appearance={{
+              baseTheme: theme === "dark" ? dark : undefined,
+              elements: {
+                avatarBox: {
+                  width: 35,
+                  height: 35,
+                },
+              },
+            }}
+          >
+            <UserButton.MenuItems>
+              <UserButton.Link
+                label="Billing"
+                labelIcon={<CreditCard className="size-4" />}
+                href="/billing"
+              />
+            </UserButton.MenuItems>
+          </UserButton> */}
           <div className="rounded-md bg-yellow-100 px-3 py-1.5 text-sm font-medium text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200">
-                        Test Mode          {" "}
+            Test Mode
           </div>
-                 {" "}
         </div>
-             {" "}
       </div>
-         {" "}
     </header>
   );
 }

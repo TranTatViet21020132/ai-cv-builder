@@ -1,4 +1,4 @@
-import connectDB from "@/lib/mongodb"
+import connectDB from "@/lib/mongodb";
 import UserSubscription from "@/models/UserSubscription";
 import stripe from "@/lib/stripe";
 import { auth } from "@clerk/nextjs/server";
@@ -21,7 +21,9 @@ export default async function Page() {
 
   await connectDB();
 
-  const subscriptionDoc = await UserSubscription.findById(userId); // Convert Mongoose document to plain object with proper serialization
+  const subscriptionDoc = await UserSubscription.findById(userId);
+
+  // Convert Mongoose document to plain object with proper serialization
   const subscription = subscriptionDoc
     ? {
         userId: subscriptionDoc.userId,
@@ -41,33 +43,26 @@ export default async function Page() {
 
   return (
     <main className="mx-auto w-full max-w-7xl space-y-6 px-3 py-6">
-            <h1 className="text-3xl font-bold">Billing</h1>     {" "}
+      <h1 className="text-3xl font-bold">Billing</h1>
       <p>
-                Your current plan:        {" "}
+        Your current plan:{" "}
         <span className="font-bold">
-                   {" "}
-          {priceInfo ? (priceInfo.product as Stripe.Product).name : "Free"}     
-           {" "}
+          {priceInfo ? (priceInfo.product as Stripe.Product).name : "Free"}
         </span>
-             {" "}
       </p>
-           {" "}
       {subscription ? (
         <>
-                   {" "}
           {subscription.stripeCancelAtPeriodEnd && (
             <p className="text-destructive">
-                            Your subscription will be canceled on              {" "}
+              Your subscription will be canceled on{" "}
               {formatDate(subscription.stripeCurrentPeriodEnd, "MMMM dd, yyyy")}
-                         {" "}
             </p>
           )}
-                    <ManageSubscriptionButton />       {" "}
+          <ManageSubscriptionButton />
         </>
       ) : (
         <GetSubscriptionButton />
       )}
-         {" "}
     </main>
   );
 }

@@ -82,31 +82,24 @@ export default function EducationForm({
 
   return (
     <div className="mx-auto max-w-xl space-y-6">
-           {" "}
-      <div className="space-y-1.5 text-center">
-                <h2 className="text-2xl font-semibold">Education</h2>       {" "}
+      <div className="space-y-1.5 text-left">
+        <h2 className="text-2xl font-semibold">Education</h2>
         <p className="text-sm text-muted-foreground">
-                    Add as many educations as you like.        {" "}
+          Add as many educations as you like.
         </p>
-             {" "}
       </div>
-           {" "}
       <Form {...form}>
-               {" "}
         <form className="space-y-3">
-                   {" "}
           <DndContext
             sensors={sensors}
             collisionDetection={closestCenter}
             onDragEnd={handleDragEnd}
             modifiers={[restrictToVerticalAxis]}
           >
-                       {" "}
             <SortableContext
               items={fields}
               strategy={verticalListSortingStrategy}
             >
-                           {" "}
               {fields.map((field, index) => (
                 <EducationItem
                   id={field.id}
@@ -116,13 +109,9 @@ export default function EducationForm({
                   remove={remove}
                 />
               ))}
-                         {" "}
             </SortableContext>
-                     {" "}
           </DndContext>
-                   {" "}
           <div className="flex justify-center">
-                       {" "}
             <Button
               type="button"
               onClick={() =>
@@ -134,15 +123,11 @@ export default function EducationForm({
                 })
               }
             >
-                            Add education            {" "}
+              Add education
             </Button>
-                     {" "}
           </div>
-                 {" "}
         </form>
-             {" "}
       </Form>
-         {" "}
     </div>
   );
 }
@@ -176,97 +161,79 @@ function EducationItem({ id, form, index, remove }: EducationItemProps) {
         transition,
       }}
     >
-           {" "}
       <div className="flex justify-between gap-2">
-                <span className="font-semibold">Education {index + 1}</span>
-               {" "}
+        <span className="font-semibold">Education {index + 1}</span>
         <GripHorizontal
           className="size-5 cursor-grab text-muted-foreground focus:outline-none"
           {...attributes}
           {...listeners}
         />
-             {" "}
       </div>
-           {" "}
       <FormField
         control={form.control}
         name={`educations.${index}.degree`}
         render={({ field }) => (
           <FormItem>
-                        <FormLabel>Degree</FormLabel>           {" "}
+            <FormLabel>Degree</FormLabel>
             <FormControl>
-                           {" "}
-              <Input {...field} value={field.value || ""} autoFocus />         
-               {" "}
+              <Input {...field} value={field.value || ""} autoFocus />
             </FormControl>
-                        <FormMessage />         {" "}
+            <FormMessage />
           </FormItem>
         )}
       />
-           {" "}
       <FormField
         control={form.control}
         name={`educations.${index}.school`}
         render={({ field }) => (
           <FormItem>
-                        <FormLabel>School</FormLabel>           {" "}
+            <FormLabel>School</FormLabel>
             <FormControl>
-                            <Input {...field} value={field.value || ""} />     
-                   {" "}
+              <Input {...field} value={field.value || ""} />
             </FormControl>
-                        <FormMessage />         {" "}
+            <FormMessage />
           </FormItem>
         )}
       />
-           {" "}
       <div className="grid grid-cols-2 gap-3">
-               {" "}
         <FormField
           control={form.control}
           name={`educations.${index}.startDate`}
           render={({ field }) => (
             <FormItem>
-                            <FormLabel>Start date</FormLabel>             {" "}
+              <FormLabel>Start date</FormLabel>
               <FormControl>
-                               {" "}
                 <Input
                   {...field}
                   type="date"
                   value={field.value?.slice(0, 10) || ""}
                 />
-                             {" "}
               </FormControl>
-                            <FormMessage />           {" "}
+              <FormMessage />
             </FormItem>
           )}
         />
-               {" "}
         <FormField
           control={form.control}
           name={`educations.${index}.endDate`}
           render={({ field }) => (
             <FormItem>
-                            <FormLabel>End date</FormLabel>             {" "}
+              <FormLabel>End date</FormLabel>
               <FormControl>
-                               {" "}
                 <Input
                   {...field}
                   type="date"
                   value={field.value?.slice(0, 10) || ""}
                 />
-                             {" "}
               </FormControl>
-                            <FormMessage />           {" "}
+              <FormMessage />
             </FormItem>
           )}
         />
-             {" "}
       </div>
-           {" "}
       <Button variant="destructive" type="button" onClick={() => remove(index)}>
-                Remove      {" "}
+        Remove
       </Button>
-         {" "}
     </div>
   );
 }

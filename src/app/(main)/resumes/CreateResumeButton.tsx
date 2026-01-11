@@ -26,10 +26,11 @@ export default function CreateResumeButton({
   return (
     <Button
       onClick={handleClick}
-      className="mx-auto flex w-fit gap-2"
+      className="flex w-fit gap-2"
       aria-label="Create new resume"
     >
-            <PlusSquare className="size-5" />      <span>New resume</span>   {" "}
+      <PlusSquare className="size-5" />
+      <span>New resume</span>
     </Button>
   );
 }
